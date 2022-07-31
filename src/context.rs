@@ -5,8 +5,12 @@ use cpal::{
 use oddio::{Handle, Mixer};
 use tracing::error;
 
+use crate::{music::MusicHandle, Music, MusicData};
+
+pub type MixerHandle = Handle<Mixer<[f32; 2]>>;
+
 pub struct Context {
-    mixer_handle: Handle<Mixer<[f32; 2]>>,
+    mixer_handle: MixerHandle,
     #[allow(unused)]
     stream: Stream, // stream unused, but needs to be alive for the entire lifetime of Context (otherwise, no output is audible)
 }
@@ -18,6 +22,15 @@ impl Context {
 
     pub fn mixer_handle_mut(&mut self) -> &mut Handle<Mixer<[f32; 2]>> {
         &mut self.mixer_handle
+    }
+
+    pub fn play(&mut self, data: &MusicData) -> MusicHandle {
+        self.mixer_handle.control().play(data.music())
+    }
+
+    pub fn restart(&mut self, music: &mut Music, data: &MusicData) -> MusicHandle {
+        music.stop();
+        self.play(data)
     }
 }
 

@@ -5,4 +5,4 @@ mod context;
 mod music;
 
 pub use context::Context;
-pub use music::Music;
+pub use music::*;
