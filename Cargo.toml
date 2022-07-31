@@ -1,0 +1,13 @@
+[package]
+name = "lyre"
+version = "0.0.0"
+edition = "2021"
+description = "A high-level audio library for games"
+authors = ["StygianLightning <denrellum@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/StygianLightning/lyre"
+keywords = ["audio"]
+
+
+[dependencies]
+
