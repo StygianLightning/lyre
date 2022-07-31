@@ -8,5 +8,9 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/StygianLightning/lyre"
 keywords = ["audio"]
 
+[features]
+wav = ["dep:hound"]
+
 [dependencies]
 oddio = "0.5.0"
+hound = { version ="3.4.0", optional = true }
