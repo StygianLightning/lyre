@@ -6,7 +6,7 @@ use oddio::{Handle, Mixer};
 use thiserror::Error;
 use tracing::error;
 
-use crate::{Music, MusicData};
+use crate::{Music, MusicData, Sfx, SfxData};
 
 pub type MixerHandle = Handle<Mixer<[f32; 2]>>;
 
@@ -80,13 +80,17 @@ impl Context {
         &mut self.mixer_handle
     }
 
-    pub fn play(&mut self, data: &MusicData) -> Music {
+    pub fn play_music(&mut self, data: &MusicData) -> Music {
         Music::new(self.mixer_handle.control().play(data.music()))
+    }
+
+    pub fn play_sfx(&mut self, data: &SfxData) -> Sfx {
+        Sfx::new(self.mixer_handle.control().play(data.sfx()))
     }
 
     pub fn restart(&mut self, mut music: Music, data: &MusicData) -> Music {
         music.stop();
-        self.play(data)
+        self.play_music(data)
     }
 }
 

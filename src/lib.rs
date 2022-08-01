@@ -3,6 +3,8 @@
 
 mod context;
 mod music;
+mod sfx;
 
 pub use context::Context;
 pub use music::*;
+pub use sfx::*;
