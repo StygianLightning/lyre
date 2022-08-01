@@ -11,5 +11,6 @@ keywords = ["audio"]
 [dependencies]
 cpal = "0.13"
 oddio = "0.5"
+thiserror = "1.0"
 tracing = "0.1"
 
