@@ -12,12 +12,14 @@ pub struct MusicData {
 }
 
 impl MusicData {
-    pub fn from_frames(frames: MusicFrames) -> Self {
-        Self { frames }
-    }
-
     pub(crate) fn music(&self) -> MusicContent {
         Gain::new(Cycle::new(Arc::clone(&self.frames)), 1.0)
+    }
+}
+
+impl From<MusicFrames> for MusicData {
+    fn from(frames: MusicFrames) -> Self {
+        Self { frames }
     }
 }
 
@@ -26,6 +28,10 @@ pub struct Music {
 }
 
 impl Music {
+    pub fn new(handle: MusicHandle) -> Self {
+        Self { handle }
+    }
+
     pub fn is_paused(&mut self) -> bool {
         self.handle.control::<Stop<_>, _>().is_paused()
     }
