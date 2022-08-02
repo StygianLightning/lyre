@@ -62,6 +62,9 @@ fn main() {
     let sfx_frames = load_wav(include_bytes!("../examples/resources/pickupCoin.wav").as_ref());
     let sfx_data = SfxData::from(sfx_frames);
 
+    let fade_to_music_frames = load_wav(include_bytes!("../examples/resources/birds.wav").as_ref());
+    let fade_to_music_data = MusicData::from(fade_to_music_frames);
+
     thread::sleep(Duration::from_secs_f32(1.0));
     {
         let gain = music.gain();
@@ -96,7 +99,12 @@ fn main() {
 
     // Restarting gives us a new Music instance.
     // Since we already stopped the music, this is equivalent to calling `Context::play_music` again.
-    let _new_music = context.restart(music, &music_data);
+    music = context.restart(music, &music_data);
+
+    thread::sleep(Duration::from_secs_f32(2.0));
+
+    // fade to another track
+    music.fade(&fade_to_music_data, 2.0);
 
     // Let the music play for a little longer.
     thread::sleep(Duration::from_secs_f32(8.0));
