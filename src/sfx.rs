@@ -13,7 +13,7 @@ pub struct SfxData {
 
 impl SfxData {
     pub(crate) fn sfx(&self) -> SfxContent {
-        Gain::new(FramesSignal::new(Arc::clone(&self.frames), 0.0), 1.0)
+        Gain::new(FramesSignal::new(Arc::clone(&self.frames), 0.0))
     }
 }
 

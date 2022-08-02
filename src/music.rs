@@ -1,10 +1,11 @@
 use std::sync::Arc;
 
-use oddio::{Cycle, Frames, Gain, Handle, Stop};
+use oddio::{Cycle, Fader, Frames, Gain, Handle, Stop};
 
 pub type MusicFrames = Arc<Frames<[f32; 2]>>;
 pub type MusicContent = Gain<Cycle<[f32; 2]>>;
-pub type MusicHandle = Handle<Stop<MusicContent>>;
+pub type FaderMusicContent = Fader<MusicContent>;
+pub type MusicHandle = Handle<Stop<FaderMusicContent>>;
 
 #[derive(Debug)]
 pub struct MusicData {
@@ -13,7 +14,7 @@ pub struct MusicData {
 
 impl MusicData {
     pub(crate) fn music(&self) -> MusicContent {
-        Gain::new(Cycle::new(Arc::clone(&self.frames)), 1.0)
+        Gain::new(Cycle::new(Arc::clone(&self.frames)))
     }
 }
 
@@ -30,6 +31,12 @@ pub struct Music {
 impl Music {
     pub fn new(handle: MusicHandle) -> Self {
         Self { handle }
+    }
+
+    pub fn fade(&mut self, fade_to_music: &MusicData, fade_duration: f32) {
+        self.handle
+            .control::<Fader<_>, _>()
+            .fade_to(fade_to_music.music(), fade_duration);
     }
 
     pub fn is_paused(&mut self) -> bool {

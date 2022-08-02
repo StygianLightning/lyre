@@ -2,7 +2,7 @@ use cpal::{
     traits::{DeviceTrait, HostTrait, StreamTrait},
     DefaultStreamConfigError, PlayStreamError, Stream,
 };
-use oddio::{Handle, Mixer};
+use oddio::{Fader, Handle, Mixer};
 use thiserror::Error;
 use tracing::error;
 
@@ -81,7 +81,7 @@ impl Context {
     }
 
     pub fn play_music(&mut self, data: &MusicData) -> Music {
-        Music::new(self.mixer_handle.control().play(data.music()))
+        Music::new(self.mixer_handle.control().play(Fader::new(data.music())))
     }
 
     pub fn play_sfx(&mut self, data: &SfxData) -> Sfx {
